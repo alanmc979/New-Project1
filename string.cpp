@@ -21,13 +21,13 @@ int main(){
 
 	Expression myExpression;
 	string myInfix = myExpression.print_infix(head);
-	
-	cout << myInfix << endl;
+	string myPrefix = myExpression.print_prefix(head);
+	string myPostfix = myExpression.print_postfix(head);
 
-	// for (int i = 0; i < 5; i++){
-	//cout << myArray << endl;
-	//cout << myInfix << endl;
-	//}
+	
+	cout << "Infix: " << myInfix << endl;
+	cout << "Prefix: " << myPrefix << endl;
+	cout << "Postfix: " << myPostfix << endl;
 
 	return 0;
 
