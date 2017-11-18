@@ -14,7 +14,6 @@ int main(){
 	cout << "Enter an expression: ";
 	getline(cin, myEXP);
  	
- 	//cout << myEXP;
 	list myList(myEXP);
 	Node *head = myList.linkedlist();
 

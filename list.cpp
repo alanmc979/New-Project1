@@ -1,6 +1,6 @@
 #include "list.h"
 #include "node.h"
-#include <iostream>
+
 using namespace std;
 
 list::list (string expression){

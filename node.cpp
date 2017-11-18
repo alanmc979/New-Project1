@@ -1,5 +1,4 @@
 #include "node.h"
-#include <iostream>
 #include <string>
 
 
@@ -43,15 +42,6 @@ void Node::setData(char operate){
 	}
 	this -> data.op = myOP;
 }
-
-// void Node::setLeft(char var){
-// 	Node* temp = new Node(var, NONE);
-// 	this -> operand1 = temp;
-// }
-
-// void Node::setRight(int val){
-// 	this -> operand2 = new Node(val, NONE);
-// }
 
 void Node::Left(Node* n){
 	this -> operand1 = n;
@@ -135,14 +125,5 @@ bool Node::ifData(char x){
 	}
 	return false;
 }
-
-
-// std::string Node::int_to_string() const{
-// 	int i;
-// 	i = data.val;
-// 	std::string s = std::to_string(i);
-// 	return s;
-
-// }
 
 
