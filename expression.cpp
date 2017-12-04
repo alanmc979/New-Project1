@@ -141,8 +141,45 @@ string Expression::print_postfix(Node*pointer) const {
 
 	
 	return userStr;
+
 	
 }
+int Expression::eval(Node *source){
+  if(source->get_operand1() == NULL && source->get_operand2() == NULL){
+    return get_val(source);
+  }
+  node_type x;
+  int x;
+  int y;
+  Node* n = source;
+  int val = 0;
+  x = source.getNodeType();
+  if(x == EXPRESSION){
+    if(source->get_operand1().getNodeType() == EXPRESSION){
+      eval(source->get_operand1());
+    }
+    else if(source->get_operand2().getNodeType() == EXPRESSION){
+      eval(source->get_operand2());
+    }
+    else{
+      n = source->get_operand1();
+      x = get_val(n);
+      delete n;
+      n = source->get_operand2();
+      y = get_val(n);
+      delete n;
+      val = x source.print_operator() y;
+      Node p = new Node(val);
+      p->setParent(source->getParent());
+      delete source;
+      source = p;
+    }
+  }      
+}
+bool Expression::compare(int a, int b){
+return (a==b);
+}
+
 
 
 

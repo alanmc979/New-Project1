@@ -14,9 +14,12 @@ public:
 	string print_infix(Node *pointer) const;
     string print_prefix(Node *pointer) const;
     string print_postfix(Node *pointer) const;
+    int eval(Node* source);
+  	bool compare(int x, int y);
 
 private:
 	Node* pointer;
+
 	
 	
 
