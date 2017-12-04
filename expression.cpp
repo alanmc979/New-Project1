@@ -146,7 +146,7 @@ string Expression::print_postfix(Node*pointer) const {
 }
 int Expression::eval(Node *source){
   if(source->get_operand1() == NULL && source->get_operand2() == NULL){
-    return get_val(source);
+    return getVal(source);
   }
   node_type x;
   int x;
@@ -163,10 +163,10 @@ int Expression::eval(Node *source){
     }
     else{
       n = source->get_operand1();
-      x = get_val(n);
+      x = getVal(n);
       delete n;
       n = source->get_operand2();
-      y = get_val(n);
+      y = getVal(n);
       delete n;
       val = x source.print_operator() y;
       Node p = new Node(val);
@@ -176,7 +176,7 @@ int Expression::eval(Node *source){
     }
   }      
 }
-bool Expression::compare(int a, int b){
+bool Expression::compare(int a, int b){//We need to make int a= eval(source)
 return (a==b);
 }
 
