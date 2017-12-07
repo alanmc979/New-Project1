@@ -263,6 +263,6 @@ int Expression::evaluate(string infix) {
 	return operands.top();
 }
 
-
-
-
+bool Expression::compare(int a, int b){
+return (a==b);
+}
