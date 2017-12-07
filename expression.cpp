@@ -213,9 +213,9 @@ int Expression::evaluate(Node* pointer){
 		(pointer -> getRight() -> nodeCheck()!= EXPRESSION)) {
 		
 			operands.push(pointer->getLeft()->getVal() -'0');
-			cout << operands.top() << endl;
+			//cout << operands.top() << endl;
 			operands.push(pointer->getRight()->getVal() - '0');
-			cout << operands.top() << endl;
+			//cout << operands.top() << endl;
 			operators.push(pointer->getData());
 		 } 
 		if (pointer -> getLeft() -> nodeCheck() == EXPRESSION){
@@ -248,7 +248,7 @@ int Expression::evaluate(Node* pointer){
 	operands.pop();
 	num2 = operands.top();
 	operands.pop();
-	cout << num2 << operators.top() << num1 << endl;
+	//cout << num2 << operators.top() << num1 << endl;
 	
 	switch(operators.top()){
 		case '+':

@@ -25,7 +25,7 @@ list::list (string expression){
 	}
 	array[size-count-1] = '\n';
 	cursor = array;
-	cout << array;
+	// cout << array;
 
 }
 
