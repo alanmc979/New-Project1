@@ -96,6 +96,7 @@ char Node::getVar(){
 	return this -> data.var;
 }
 
+
 node_type Node::nodeCheck (){
 
 

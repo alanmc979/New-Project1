@@ -22,13 +22,13 @@ int main(){
 	string myInfix = myExpression.print_infix(head);
 	string myPrefix = myExpression.print_prefix(head);
 	string myPostfix = myExpression.print_postfix(head);
-
+	
 	
 	cout << "Infix: " << myInfix << endl;
 	cout << "Prefix: " << myPrefix << endl;
 	cout << "Postfix: " << myPostfix << endl;
-
-
+	int evaluated = myExpression.evaluate(myInfix);
+	cout << "The expression equals to " << evaluated << endl;
 
 	return 0;
 

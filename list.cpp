@@ -1,5 +1,6 @@
 #include "list.h"
 #include "node.h"
+#include <iostream>
 
 using namespace std;
 
@@ -24,6 +25,7 @@ list::list (string expression){
 	}
 	array[size-count-1] = '\n';
 	cursor = array;
+	cout << array;
 
 }
 
@@ -48,20 +50,30 @@ Node* list::linkedlist (){
 			current->setData(cursor[i]);
 			
 		} 
-		//if cursor is pointing to a variable
-		else if (current->typeCheck(cursor[i]) == VARIABLE){
-			Node *m = new Node(cursor[i], VARIABLE);
-			current->Left(m);
 
-		} 
-		//if cursor is pointing to an integer
-		else if (current->typeCheck(cursor[i]) == INTEGER) {
+		else if (current -> typeCheck(cursor[i]) != EXPRESSION){
+			if (current -> typeCheck(cursor[i]) == VARIABLE){
+				Node *m = new Node(cursor[i], VARIABLE);
+				if (current->getLeft() == 0){
+					current->Left(m);
+				}
+				else {
+					current->Right(m);
+				}
+			} else {
+				int userInt = cursor[i] - '0';
+				Node *m = new Node(userInt, INTEGER);
+			
+				if (current->getLeft() == 0){
+					current->Left(m);
+				}
+				else {
+					current->Right(m);
+				}
+			}
 
-			int userInt = cursor[i] - '0';
-
-			Node *m = new Node(userInt, INTEGER);
-			current->Right(m);
 		}
+
 		//return to previous node 
 		else if (cursor[i] == ')'){
 			current = current->getParent();

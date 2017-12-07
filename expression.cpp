@@ -1,6 +1,8 @@
 #include "expression.h"
 #include <string>
-
+#include <stack>
+#include <stdlib.h>
+#include <iostream>
 using namespace std;
 
 Expression::Expression(){
@@ -15,33 +17,58 @@ string Expression::print_infix(Node* pointer) const {
 	while (x != 0){
 		if ((pointer -> getLeft() -> nodeCheck() != EXPRESSION) && 
 		(pointer -> getRight() -> nodeCheck()!= EXPRESSION)) {
-		userStr += pointer -> getLeft() -> getVar();
-		userStr += pointer -> getData();
-		userStr += pointer -> getRight() -> getVal();
-		return userStr;
+			userStr += "(";
+			if (pointer -> getLeft() -> nodeCheck() == VARIABLE){
+				userStr += pointer -> getLeft() -> getVar();
+			} else {
+				userStr += pointer -> getLeft() -> getVal();
+			}
+
+			userStr += pointer -> getData();
+			if (pointer -> getRight() -> nodeCheck() == VARIABLE){
+				userStr += pointer -> getRight() -> getVar();
+			} else {
+				userStr += pointer -> getRight() -> getVal();
+			}
+			userStr += ")";
+			return userStr;
 		}
 			
 		if (pointer -> getLeft() -> nodeCheck() == EXPRESSION){
+			userStr += "(";
 			pointer = pointer -> getLeft();
 			userStr += Expression::print_infix(pointer);
 			pointer = pointer -> getParent();
 			userStr += pointer -> getData();
 		} else {
-			userStr += pointer -> getLeft() -> getVar();
+			userStr += "(";
+			if (pointer -> getLeft() -> nodeCheck() == VARIABLE){
+				userStr += pointer -> getLeft() -> getVar();
+			} else {
+				userStr += pointer -> getLeft() -> getVal();
+			}
 			userStr += pointer -> getData();
 			pointer = pointer -> getRight();
 			userStr += Expression::print_infix(pointer);
+			userStr += ")";
 			return userStr;
 		}
 		if (pointer -> getRight() -> nodeCheck() == EXPRESSION){
+			
 			pointer = pointer -> getRight();
 			userStr += Expression::print_infix(pointer);
 			pointer = pointer -> getParent();
+			userStr += ")";
 		} else {
-			userStr += pointer -> getRight() -> getVal();
+			
+			if (pointer -> getRight() -> nodeCheck() == VARIABLE){
+				userStr += pointer -> getRight() -> getVar();
+			} else {
+				userStr += pointer -> getRight() -> getVal();
+			}
+			userStr += ")";
 			return userStr;
 		}
-
 		x = 0;
 	}
 
@@ -59,9 +86,17 @@ string Expression::print_prefix(Node* pointer) const {
 	while (x != 0){
 		if ((pointer -> getLeft() -> nodeCheck() != EXPRESSION) && 
 		(pointer -> getRight() -> nodeCheck()!= EXPRESSION)) {
-		userStr += pointer -> getData();
-		userStr += pointer -> getLeft() -> getVar();
-		userStr += pointer -> getRight() -> getVal();
+			userStr += pointer -> getData();
+			if (pointer -> getLeft() -> nodeCheck() == VARIABLE){
+				userStr += pointer -> getLeft() -> getVar();
+			} else {
+				userStr += pointer -> getLeft() -> getVal();
+			}
+			if (pointer -> getRight() -> nodeCheck() == VARIABLE){
+				userStr += pointer -> getRight() -> getVar();
+			} else {
+				userStr += pointer -> getRight() -> getVal();
+			}
 		return userStr;
 		}
 			
@@ -72,7 +107,11 @@ string Expression::print_prefix(Node* pointer) const {
 			pointer = pointer -> getParent();
 		} else {
 			userStr += pointer -> getData();
-			userStr += pointer -> getLeft() -> getVar();
+			if (pointer -> getLeft() -> nodeCheck() == VARIABLE){
+				userStr += pointer -> getLeft() -> getVar();
+			} else {
+				userStr += pointer -> getLeft() -> getVal();
+			}
 			pointer = pointer -> getRight();
 			userStr += Expression::print_prefix(pointer);
 			return userStr;
@@ -83,7 +122,11 @@ string Expression::print_prefix(Node* pointer) const {
 			userStr += Expression::print_prefix(pointer);
 			pointer = pointer -> getParent();
 		} else {
-			userStr += pointer -> getRight() -> getVal();
+			if (pointer -> getRight() -> nodeCheck() == VARIABLE){
+				userStr += pointer -> getRight() -> getVar();
+			} else {
+				userStr += pointer -> getRight() -> getVal();
+			}
 			return userStr;
 		}
 
@@ -105,10 +148,19 @@ string Expression::print_postfix(Node*pointer) const {
 	while (x != 0){
 		if ((pointer -> getLeft() -> nodeCheck() != EXPRESSION) && 
 		(pointer -> getRight() -> nodeCheck()!= EXPRESSION)) {
-		userStr += pointer -> getLeft() -> getVar();
-		userStr += pointer -> getRight() -> getVal();
-		userStr += pointer -> getData();
-		return userStr;
+			if (pointer -> getLeft() -> nodeCheck() == VARIABLE){
+				userStr += pointer -> getLeft() -> getVar();
+			} else {
+				userStr += pointer -> getLeft() -> getVal();
+			}
+
+			if (pointer -> getRight() -> nodeCheck() == VARIABLE){
+				userStr += pointer -> getRight() -> getVar();
+			} else {
+				userStr += pointer -> getRight() -> getVal();
+			}
+			userStr += pointer -> getData();
+			return userStr;
 		}
 			
 		if (pointer -> getLeft() -> nodeCheck() == EXPRESSION){
@@ -117,7 +169,11 @@ string Expression::print_postfix(Node*pointer) const {
 			pointer = pointer -> getParent();
 			
 		} else {
-			userStr += pointer -> getLeft() -> getVar();
+			if (pointer -> getLeft() -> nodeCheck() == VARIABLE){
+				userStr += pointer -> getLeft() -> getVar();
+			} else {
+				userStr += pointer -> getLeft() -> getVal();
+			}
 			pointer = pointer -> getRight();
 			userStr += Expression::print_postfix(pointer);
 			pointer = pointer -> getParent();
@@ -130,7 +186,11 @@ string Expression::print_postfix(Node*pointer) const {
 			pointer = pointer -> getParent();
 			userStr += pointer -> getData();
 		} else {
-			userStr += pointer -> getRight() -> getVal();
+			if (pointer -> getRight() -> nodeCheck() == VARIABLE){
+				userStr += pointer -> getRight() -> getVar();
+			} else {
+				userStr += pointer -> getRight() -> getVal();
+			}
 			userStr += pointer -> getData();
 			return userStr;
 		}
@@ -138,51 +198,70 @@ string Expression::print_postfix(Node*pointer) const {
 		x = 0;
 	}
 
-
-	
 	return userStr;
-
 	
 }
-int Expression::eval(Node *source){
-  if(source->get_operand1() == NULL && source->get_operand2() == NULL){
-    return getVal(source);
-  }
-  node_type x;
-  int x;
-  int y;
-  Node* n = source;
-  int val = 0;
-  x = source.getNodeType();
-  if(x == EXPRESSION){
-    if(source->get_operand1().getNodeType() == EXPRESSION){
-      eval(source->get_operand1());
-    }
-    else if(source->get_operand2().getNodeType() == EXPRESSION){
-      eval(source->get_operand2());
-    }
-    else{
-      n = source->get_operand1();
-      x = getVal(n);
-      delete n;
-      n = source->get_operand2();
-      y = getVal(n);
-      delete n;
-      val = x source.print_operator() y;
-      Node p = new Node(val);
-      p->setParent(source->getParent());
-      delete source;
-      source = p;
-    }
-  }      
+
+int Expression::evaluate(string infix) {
+
+	stack <int> operands;
+	stack <char> operators;
+
+	int num1, num2;
+	int length = infix.size();
+
+	for (int i = 0; i < length; i++){
+		if (isalpha(infix[i]) == true){
+			exit (EXIT_FAILURE);
+		}
+		if (infix[i] == '('){
+			i++;
+		}
+		if (isdigit(infix[i])){
+			operands.push(infix[i] - '0');
+		}
+		if (infix[i] == '+' || infix[i] == '-' || infix[i] == '*' || infix[i] == '/'){
+			operators.push(infix[i]);
+		}
+		if (infix[i] == ')') {
+			
+			switch(operators.top()){
+				case '+':
+					num1 = operands.top();
+					operands.pop();
+					num2 = operands.top();
+					operands.pop();
+					operands.push(num2+num1);
+					break;
+				case '-':
+					num1 = operands.top();
+					operands.pop();
+					num2 = operands.top();
+					operands.pop();
+					operands.push(num2-num1);
+					break;
+				case '*':
+					num1 = operands.top();
+					operands.pop();
+					num2 = operands.top();
+					operands.pop();
+					operands.push(num2*num1);
+					break;
+				case '/':
+					num1 = operands.top();
+					operands.pop();
+					num2 = operands.top();
+					operands.pop();
+					operands.push(num2/num1);
+					break;
+			}
+			operators.pop();
+		}
+	
+	}
+
+	return operands.top();
 }
-bool Expression::compare(int a, int b){//We need to make int a= eval(source)
-return (a==b);
-}
-
-
-
-
 
 
 
