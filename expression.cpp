@@ -202,65 +202,74 @@ string Expression::print_postfix(Node*pointer) const {
 	
 }
 
-int Expression::evaluate(string infix) {
-
-	stack <int> operands;
-	stack <char> operators;
+int Expression::evaluate(Node* pointer){
 
 	int num1, num2;
-	int length = infix.size();
-
-	for (int i = 0; i < length; i++){
-		if (isalpha(infix[i]) == true){
-			exit (EXIT_FAILURE);
-		}
-		if (infix[i] == '('){
-			i++;
-		}
-		if (isdigit(infix[i])){
-			operands.push(infix[i] - '0');
-		}
-		if (infix[i] == '+' || infix[i] == '-' || infix[i] == '*' || infix[i] == '/'){
-			operators.push(infix[i]);
-		}
-		if (infix[i] == ')') {
-			
-			switch(operators.top()){
-				case '+':
-					num1 = operands.top();
-					operands.pop();
-					num2 = operands.top();
-					operands.pop();
-					operands.push(num2+num1);
-					break;
-				case '-':
-					num1 = operands.top();
-					operands.pop();
-					num2 = operands.top();
-					operands.pop();
-					operands.push(num2-num1);
-					break;
-				case '*':
-					num1 = operands.top();
-					operands.pop();
-					num2 = operands.top();
-					operands.pop();
-					operands.push(num2*num1);
-					break;
-				case '/':
-					num1 = operands.top();
-					operands.pop();
-					num2 = operands.top();
-					operands.pop();
-					operands.push(num2/num1);
-					break;
-			}
-			operators.pop();
-		}
+	int temp1;
+	int x = 1;
 	
+	while (x != 0){
+		if ((pointer -> getLeft() -> nodeCheck() != EXPRESSION) && 
+		(pointer -> getRight() -> nodeCheck()!= EXPRESSION)) {
+		
+			operands.push(pointer->getLeft()->getVal() -'0');
+			cout << operands.top() << endl;
+			operands.push(pointer->getRight()->getVal() - '0');
+			cout << operands.top() << endl;
+			operators.push(pointer->getData());
+		 } 
+		if (pointer -> getLeft() -> nodeCheck() == EXPRESSION){
+			pointer = pointer -> getLeft();
+		 	operands.push(Expression::evaluate(pointer));
+		 	pointer = pointer -> getParent();
+		 	operators.push(pointer -> getData());
+		 
+
+		 } else if ((pointer -> getLeft()-> nodeCheck() == INTEGER) && 
+		 	(pointer -> getRight() -> nodeCheck() == EXPRESSION)){
+		 	operands.push(pointer -> getLeft() -> getVal());
+		 	operators.push(pointer -> getData());
+		 
+		 }
+
+		if (pointer -> getRight() -> nodeCheck() == EXPRESSION){
+			pointer = pointer -> getRight();
+			operands.push(Expression::evaluate(pointer));
+			pointer = pointer -> getParent();
+	
+		} else if ((pointer -> getRight() -> nodeCheck() == INTEGER) &&
+			(pointer -> getLeft() -> nodeCheck()== EXPRESSION)){
+			operands.push(pointer -> getRight() -> getVal());
+		}
+		x = 0;
 	}
 
-	return operands.top();
+	num1 = operands.top();
+	operands.pop();
+	num2 = operands.top();
+	operands.pop();
+	cout << num2 << operators.top() << num1 << endl;
+	
+	switch(operators.top()){
+		case '+':
+			operands.push(num2+num1);
+			break;
+		case '-':
+			operands.push(num2-num1);
+			break;
+		case '*':
+			operands.push(num2*num1);
+			break;
+		case '/':
+			operands.push(num2/num1);
+			break;
+	}
+	operators.pop();
+
+	temp1 = operands.top();
+	operands.pop();
+
+	return temp1;
 }
 
 char Expression::compare(int a, int b){
@@ -273,7 +282,5 @@ char Expression::compare(int a, int b){
 	else if(a>b){
 		return '>';
 	}
-	else{
-		return 'not comparable';
-	}
+	return 0;
 }
