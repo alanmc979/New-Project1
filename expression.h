@@ -15,7 +15,7 @@ public:
     string print_prefix(Node *pointer) const;
     string print_postfix(Node *pointer) const;
    	int evaluate(string infix); //implement infix with parenthesis
-   	bool Expression::compare(int a, int b){
+   	char compare(int a, int b);
 
 private:
 	Node* pointer;

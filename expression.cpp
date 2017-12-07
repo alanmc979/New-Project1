@@ -263,6 +263,17 @@ int Expression::evaluate(string infix) {
 	return operands.top();
 }
 
-bool Expression::compare(int a, int b){
-return (a==b);
+char Expression::compare(int a, int b){
+	if (a==b){
+		return '=';
+	}
+	else if(a<b){
+		return '<';
+	}
+	else if(a>b){
+		return '>';
+	}
+	else{
+		return 'not comparable';
+	}
 }

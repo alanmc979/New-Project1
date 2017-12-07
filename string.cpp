@@ -10,7 +10,7 @@ using namespace std;
 int main(){
 
 
-	string myEXP;
+	string myEXP, myEXP1,myEXP2;
 	cout << "Enter an expression: ";
 	getline(cin, myEXP);
  	
@@ -28,7 +28,34 @@ int main(){
 	cout << "Prefix: " << myPrefix << endl;
 	cout << "Postfix: " << myPostfix << endl;
 	int evaluated = myExpression.evaluate(myInfix);
-	cout << "The expression equals to " << evaluated << endl;
+	cout << "The expression equals to " << evaluated <<endl;
+
+	cout << "Enter expression1 to compare: ";
+	getline(cin, myEXP1);
+ 	
+	list myList1(myEXP1);
+	head = myList1.linkedlist();
+
+
+	Expression myExpression1;
+	string myInfix1 = myExpression1.print_infix(head);
+
+	int x = myExpression1.evaluate(myInfix1);
+
+	cout << "Enter expression2 to compare: ";
+	getline(cin, myEXP2);
+ 	
+	list myList2(myEXP2);
+	head = myList2.linkedlist();
+
+
+	Expression myExpression2;
+	string myInfix2 = myExpression2.print_infix(head);
+
+	int y = myExpression2.evaluate(myInfix2);
+
+	cout<< "Expression 1 "<<myExpression.compare(x,y)<<" Expression 2"<<endl;
+
 
 	return 0;
 
