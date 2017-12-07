@@ -15,7 +15,7 @@ public:
 	string print_infix(Node *pointer) const;
     string print_prefix(Node *pointer) const;
     string print_postfix(Node *pointer) const;
-   	int evaluate(Node* pointer); //implement infix with parenthesis
+   	int evaluate(Node* pointer); 
    	char compare(int a, int b);
 
 private:
