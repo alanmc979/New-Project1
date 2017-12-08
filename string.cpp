@@ -18,7 +18,7 @@ int main(){
 		cout << "Type 1 for Expression Evaluation, " << 
 			"Type 2 for Expression Comparison: " << endl;
 		cin >> choice;
-		while(choice!='1' and choice!='2'){
+		while(choice!='1' && choice!='2'){
 			cout<<"Invalid input."<<endl<<"Please Type 1 for Expression Evaluation, " << 
 			"Type 2 for Expression Comparison: " << endl;
 			cin>> choice;
@@ -27,8 +27,10 @@ int main(){
 		if (choice == '1'){
 
 			cout << "Enter an expression: ";
-			cin>> myEXP;
- 	
+			
+			cin.ignore();
+			getline(cin, myEXP);
+			
 			list myList(myEXP);
 			Node *head = myList.linkedlist();
 
@@ -41,14 +43,26 @@ int main(){
 			cout << "Infix: " << myInfix << endl;
 			cout << "Prefix: " << myPrefix << endl;
 			cout << "Postfix: " << myPostfix << endl;
-			int evaluated = myExpression.evaluate(head);
-			cout << "The expression equals to " << evaluated <<endl;
+
+			int length = myInfix.size();
+			bool isX = false;
+			for (int i = 0; i < length; i++){
+				if (myInfix[i] == 'x'){
+					isX = true;
+				}
+			}
+			if (isX == false) {
+				int evaluated = myExpression.evaluate(head);
+				cout << "The expression equals to " << evaluated <<endl;
+			}
+		
 		} 
 		else if (choice == '2'){
 			cout << "Enter first expressions: ";
-			cin>>myEXP1;
+			cin.ignore();
+			getline(cin, myEXP1);
 			cout << "Enter second expression: ";
-			cin>>myEXP2;
+			getline(cin, myEXP2);
 
 			list myList1(myEXP1); list myList2(myEXP2);
 			Node *head1 = myList1.linkedlist();
@@ -64,7 +78,7 @@ int main(){
 
 		cout << "Type 'y' to continue or type 'n' to end program: " << endl;
 		cin >> answer;
-		while(answer!='y' and answer!='n'){
+		if(answer!='y' && answer!='n'){
 			cout<<"Invalid input. Please type 'y' to continue or type 'n' to end program: "<<endl;
 			cin>> answer;
 		}
